@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private SQLiteDatabase mDb;
     private RecyclerView mIncidentRecyclerView;
     private DecoView mCAbsenceDecoView;
+    private DecoView mMAbsenceDecoView;
 
     private final static String TAG = MainActivity.class.getSimpleName();
 
@@ -36,34 +37,41 @@ public class MainActivity extends AppCompatActivity {
 
         mIncidentRecyclerView = (RecyclerView) findViewById(R.id.incidents_list_view);
         mCAbsenceDecoView = (DecoView) findViewById(R.id.c_absence_decoview);
+        mMAbsenceDecoView = (DecoView) findViewById(R.id.m_absence_decoview);
 
         //Adding background  series
         SeriesItem backgroundSeriesItem = new SeriesItem.Builder(Color.parseColor("#FFE2E2E2"))
-                .setRange(0, 50, 0)
+                .setRange(0, 100, 0)
                 .build();
 
-        int backIndex = mCAbsenceDecoView.addSeries(backgroundSeriesItem);
+        int backIndex1 = mCAbsenceDecoView.addSeries(backgroundSeriesItem);
+        int backIndex2 = mMAbsenceDecoView.addSeries(backgroundSeriesItem);
 
         //Adding actual data series
         final SeriesItem seriesItem = new SeriesItem.Builder(Color.parseColor("#FFFF8800"))
-                .setRange(0, 50, 0)
+                .setRange(0, 100, 0)
                 .build();
 
-        int series1Index = mCAbsenceDecoView.addSeries(seriesItem);
+        int seriesIndex1 = mCAbsenceDecoView.addSeries(seriesItem);
+        int seriesIndex2 = mMAbsenceDecoView.addSeries(seriesItem);
 
-        //Create timed events to animate the DecoView data series
-        mCAbsenceDecoView.addEvent(new DecoEvent.Builder(50)
-                .setIndex(backIndex)
+        //Fill background event
+        mCAbsenceDecoView.addEvent(new DecoEvent.Builder(100)
+                .setIndex(backIndex1)
                 .build());
 
-        mCAbsenceDecoView.addEvent(new DecoEvent.Builder(16.3f)
-                .setIndex(series1Index)
-                .setDelay(5000)
+        mMAbsenceDecoView.addEvent(new DecoEvent.Builder(100)
+                .setIndex(backIndex2)
                 .build());
 
-        mCAbsenceDecoView.addEvent(new DecoEvent.Builder(30f)
-                .setIndex(series1Index)
-                .setDelay(10000)
+        mCAbsenceDecoView.addEvent(new DecoEvent.Builder(25f)
+                .setIndex(seriesIndex1)
+                .setDelay(1000)
+                .build());
+
+        mMAbsenceDecoView.addEvent(new DecoEvent.Builder(50f)
+                .setIndex(seriesIndex2)
+                .setDelay(2000)
                 .build());
 
         mIncidentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
